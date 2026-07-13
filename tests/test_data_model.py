@@ -47,3 +47,32 @@ def test_blacksmithing_seed_has_modest_alliance_first_real_records():
     assert 'Alliance' in blacksmithing
     assert 'verified = false' in blacksmithing
     assert 'Ascension' in blacksmithing or 'CoA' in blacksmithing
+
+
+def test_toc_loads_state_scanner_before_entrypoint():
+    toc = read('MaddinCrafts.toc')
+    assert 'State.lua' in toc
+    assert toc.index('State.lua') < toc.index('MaddinCrafts.lua')
+
+
+def test_state_scanner_uses_wotlk_state_apis_and_events():
+    state = read('State.lua')
+    for token in [
+        'UnitFactionGroup("player")', 'GetNumFactions', 'GetFactionInfo',
+        'GetProfessions', 'GetProfessionInfo', 'GetNumTradeSkills',
+        'GetTradeSkillInfo', 'GetTradeSkillRecipeLink',
+        'ADDON_LOADED', 'PLAYER_LOGIN', 'TRADE_SKILL_SHOW',
+        'TRADE_SKILL_UPDATE', 'CHAT_MSG_SKILL',
+    ]:
+        assert token in state
+    assert 'ExpandFactionHeader' not in state
+    assert 'CollapseFactionHeader' not in state
+
+
+def test_state_scanner_caches_per_character_learned_recipe_ids():
+    state = read('State.lua')
+    assert 'GetRealmName()' in state
+    assert 'UnitName("player")' in state
+    assert 'characters' in state
+    assert 'learnedRecipes' in state
+    assert 'ExtractIdFromLink' in state

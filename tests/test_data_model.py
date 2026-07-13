@@ -87,3 +87,10 @@ def test_state_scanner_falls_back_to_skill_lines_for_wotlk_professions():
     assert 'skillModifier' in state
     assert 'professions.unknown' in state
     assert 'not next(professions)' in state
+
+
+def test_toc_loads_generated_mining_data():
+    toc = read('MaddinCrafts.toc')
+    assert 'data/Mining.lua' in toc
+    assert toc.index('data/Leatherworking.lua') < toc.index('data/Mining.lua') < toc.index('data/Tailoring.lua')
+    assert 'MC:RegisterRecipes("MINING"' in read('data/Mining.lua')

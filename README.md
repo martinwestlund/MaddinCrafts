@@ -31,7 +31,7 @@ Use the profession list to choose a profession, then switch between:
 - **Available**: recipes that appear learnable based on known skill, faction, reputation data, and a usable source type. `SOURCE_PENDING` records and records with unknown skill (`requiredSkill = 0`) stay Unlearned until their requirements are curated.
 - **Unlearned**: recipes not currently known or available according to the addon cache.
 
-Selecting a recipe shows its source text, requirements, notes, and verification status.
+Selecting a recipe shows its source text, requirements, notes, and verification status. The profession buttons include bundled record counts, and the recipe list header shows how many records are displayed for the current filter.
 
 ## First-run learned recipe scan
 

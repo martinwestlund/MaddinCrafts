@@ -2,6 +2,8 @@
 
 MaddinCrafts ships generated Lua recipe data from the curated seed file at `tools/recipe_seed.json`. The generated files in `data/*.lua` are runtime artifacts and should not be edited by hand.
 
+> **Coverage notice:** The bundled seed is currently partial coverage only, not an exhaustive recipe database. In-game progress counts and Learned/Available/Unlearned totals only describe the bundled records until more recipes are added.
+
 ## Source confidence
 
 Recipe records include a `verified` flag and `notes` field:

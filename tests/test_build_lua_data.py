@@ -150,9 +150,9 @@ def write_single_recipe_seed(path, **overrides):
     ('recipeItemId', -1, 'field recipeItemId must be a non-negative integer or null'),
     ('recipeItemId', True, 'field recipeItemId must be a non-negative integer or null'),
     ('teachesSpellId', '3755', 'field teachesSpellId must be a non-negative integer or null'),
-    ('faction', 'Horde', 'field faction must be one of'),
+    ('faction', 'Aldor', 'field faction must be one of'),
     ('reputation', 1, 'field reputation must be str or null'),
-    ('phase', 'TBC', 'field phase must be one of'),
+    ('phase', 'Cataclysm', 'field phase must be one of'),
     ('verified', 'true', 'field verified must be bool'),
     ('notes', 123, 'field notes must be str'),
     ('sourceUrls', 'https://example.test', 'field sourceUrls must be a non-empty list of strings'),
@@ -167,6 +167,19 @@ def test_generator_rejects_invalid_seed_field_types_and_enums(tmp_path, field, v
 
     assert result.returncode != 0
     assert message in result.stderr
+
+
+def test_generator_accepts_scope_enums_without_seed_records(tmp_path):
+    seed = tmp_path / 'seed.json'
+    out = tmp_path / 'data'
+    write_single_recipe_seed(seed, faction='Horde', phase='WotLK')
+
+    result = run_generator(seed, out)
+
+    assert result.returncode == 0, result.stderr
+    generated = (out / 'Tailoring.lua').read_text(encoding='utf-8')
+    assert 'faction = "Horde"' in generated
+    assert 'phase = "WotLK"' in generated
 
 
 def test_generator_rejects_duplicate_recipe_ids(tmp_path):

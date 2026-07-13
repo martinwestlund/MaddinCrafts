@@ -4,6 +4,8 @@ MaddinCrafts is a World of Warcraft 3.3.5a / Project Ascension addon for trackin
 
 It ships with bundled recipe data, scans recipes your character has learned, and groups recipes into Learned, Available, and Unlearned categories.
 
+> **Data coverage notice:** The current bundled database is a partial seed set, not an exhaustive recipe catalog. Progress counts and Learned/Available/Unlearned totals only apply to records bundled in this repository until the database is expanded.
+
 ## Install
 
 1. Copy or clone this repository into your WoW installation's addon folder:
@@ -44,7 +46,7 @@ The learned recipe cache is stored per character in `MaddinCraftsDB`. If a profe
 
 ## Data quality and Ascension uncertainty
 
-Classic/WotLK baseline records are included where they are sourceable, while Ascension custom data is intentionally conservative. Ascension DB, CoA wiki, and Bronzebeard/server-variant records can be incomplete or differ between realms and patches. Uncertain records are marked unverified and include notes.
+The current bundled records are partial seed coverage, not exhaustive profession coverage. Classic/WotLK baseline records are included where they are sourceable, while Ascension custom data is intentionally conservative. Ascension DB, CoA wiki, and Bronzebeard/server-variant records can be incomplete or differ between realms and patches. Uncertain records are marked unverified and include notes.
 
 See [docs/data-quality.md](docs/data-quality.md) for the curation rules, source-confidence policy, and how to add or correct recipes.
 

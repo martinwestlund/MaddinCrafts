@@ -76,3 +76,13 @@ def test_state_scanner_caches_per_character_learned_recipe_ids():
     assert 'characters' in state
     assert 'learnedRecipes' in state
     assert 'ExtractIdFromLink' in state
+
+
+def test_state_scanner_falls_back_to_skill_lines_for_wotlk_professions():
+    state = read('State.lua')
+    assert 'GetNumSkillLines' in state
+    assert 'GetSkillLineInfo' in state
+    assert 'skillRank' in state
+    assert 'skillModifier' in state
+    assert 'professions.unknown' in state
+    assert 'not next(professions)' in state

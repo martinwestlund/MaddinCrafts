@@ -129,11 +129,43 @@ function MC:ScanReputations()
     return reputations
 end
 
+local function IsTrackedProfessionName(name)
+    if type(name) ~= "string" or type(MC.data) ~= "table" or type(MC.data.professions) ~= "table" then
+        return false
+    end
+
+    for _, profession in pairs(MC.data.professions) do
+        if profession.name == name then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function ScanSkillLineProfessions(professions)
+    if not GetNumSkillLines or not GetSkillLineInfo then
+        return
+    end
+
+    for index = 1, GetNumSkillLines() do
+        local skillName, isHeader, isExpanded, skillRank, numTempPoints, skillModifier, skillMaxRank = GetSkillLineInfo(index)
+        if skillName and not isHeader and IsTrackedProfessionName(skillName) then
+            professions[skillName] = {
+                rank = (skillRank or 0) + (skillModifier or 0),
+                maxRank = skillMaxRank or 0,
+            }
+        end
+    end
+end
+
 function MC:ScanProfessions()
     local character = EnsureCharacterState()
     local professions = {}
+    local hasProfessionApi = GetProfessions and GetProfessionInfo
+    local hasSkillLineApi = GetNumSkillLines and GetSkillLineInfo
 
-    if GetProfessions and GetProfessionInfo then
+    if hasProfessionApi then
         local professionIndexes = { GetProfessions() }
         for _, professionIndex in ipairs(professionIndexes) do
             if professionIndex then
@@ -147,7 +179,13 @@ function MC:ScanProfessions()
                 end
             end
         end
-    else
+    end
+
+    if hasSkillLineApi and not next(professions) then
+        ScanSkillLineProfessions(professions)
+    end
+
+    if not hasProfessionApi and not hasSkillLineApi then
         professions.unknown = {
             rank = 0,
             maxRank = 0,

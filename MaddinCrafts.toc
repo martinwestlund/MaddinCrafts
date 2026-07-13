@@ -9,7 +9,16 @@ Core.lua
 Debug.lua
 Data.lua
 data/Professions.lua
+data/Alchemy.lua
 data/Blacksmithing.lua
+data/Cooking.lua
+data/Enchanting.lua
+data/Engineering.lua
+data/FirstAid.lua
+data/Leatherworking.lua
+data/Tailoring.lua
+data/Woodcutting.lua
+data/Woodworking.lua
 State.lua
 Catalog.lua
 UI.lua

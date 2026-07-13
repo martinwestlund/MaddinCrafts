@@ -196,6 +196,17 @@ def test_generator_rejects_duplicate_recipe_ids(tmp_path):
     assert 'duplicate recipe id tailoring-linen-bag' in result.stderr
 
 
+def test_generator_rejects_duplicate_source_urls(tmp_path):
+    seed = tmp_path / 'bad_seed.json'
+    out = tmp_path / 'data'
+    write_single_recipe_seed(seed, sourceUrls=['https://example.test/a', 'https://example.test/a'])
+
+    result = run_generator(seed, out)
+
+    assert result.returncode != 0
+    assert 'field sourceUrls must not contain duplicates' in result.stderr
+
+
 def test_generator_rejects_duplicate_profession_spell_pairs(tmp_path):
     seed = tmp_path / 'bad_seed.json'
     out = tmp_path / 'data'

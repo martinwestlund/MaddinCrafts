@@ -168,6 +168,8 @@ def validate_recipe(recipe: dict, index: int) -> list[str]:
     if not isinstance(source_urls, list) or not source_urls or not all(isinstance(url, str) for url in source_urls):
         errors.append(f"recipe {recipe_label(recipe, index)} field sourceUrls must be a non-empty list of strings")
         source_urls = []
+    elif len(source_urls) != len(set(source_urls)):
+        errors.append(f"recipe {recipe_label(recipe, index)} field sourceUrls must not contain duplicates")
 
     source_text = f"{recipe.get('sourceType', '')} {recipe.get('sourceText', '')} {recipe.get('phase', '')}".upper()
     source_url_text = " ".join(source_urls).upper()

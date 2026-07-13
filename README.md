@@ -4,7 +4,7 @@ MaddinCrafts is a World of Warcraft 3.3.5a / Project Ascension addon for trackin
 
 It ships with bundled recipe data, scans recipes your character has learned, and groups recipes into Learned, Available, and Unlearned categories.
 
-> **Data coverage notice:** The current bundled database is a partial seed set, not an exhaustive recipe catalog. Progress counts and Learned/Available/Unlearned totals only apply to records bundled in this repository until the database is expanded.
+> **Data coverage notice:** The bundled database now includes broad Vanilla/Classic skill-cap-300 profession spell coverage from ClassicDB plus a small number of curated source examples. Many imported records are marked `SOURCE_PENDING`, meaning the recipe exists in the ClassicDB profession list but the exact trainer/vendor/drop/quest acquisition source still needs verification.
 
 ## Install
 
@@ -28,7 +28,7 @@ Use the profession list to choose a profession, then switch between:
 
 - **Overall**: summary view for the selected profession.
 - **Learned**: recipes MaddinCrafts has detected on this character.
-- **Available**: recipes that appear learnable based on known skill, faction, and reputation data.
+- **Available**: recipes that appear learnable based on known skill, faction, reputation data, and a verified-enough source type. `SOURCE_PENDING` records stay Unlearned until their acquisition source is curated.
 - **Unlearned**: recipes not currently known or available according to the addon cache.
 
 Selecting a recipe shows its source text, requirements, notes, and verification status.
@@ -46,7 +46,7 @@ The learned recipe cache is stored per character in `MaddinCraftsDB`. If a profe
 
 ## Data quality and Ascension uncertainty
 
-The current bundled records are partial seed coverage, not exhaustive profession coverage. Classic/WotLK baseline records are included where they are sourceable, while Ascension custom data is intentionally conservative. Ascension DB, CoA wiki, and Bronzebeard/server-variant records can be incomplete or differ between realms and patches. Uncertain records are marked unverified and include notes.
+The bundled records now include broad Vanilla/Classic skill-cap-300 coverage imported from ClassicDB profession spell lists. Those imported rows are useful for collection tracking, but many have `SOURCE_PENDING` because the list pages do not prove whether the recipe comes from a trainer, vendor, quest, drop, or reputation source. Curated source records override pending imports as they are verified. Ascension DB, CoA wiki, and Bronzebeard/server-variant records can be incomplete or differ between realms and patches. Uncertain records are marked unverified and include notes.
 
 See [docs/data-quality.md](docs/data-quality.md) for the curation rules, source-confidence policy, and how to add or correct recipes.
 
@@ -58,7 +58,7 @@ To add or fix a recipe:
 
 1. Update the matching record, or add a new record, in `tools/recipe_seed.json`.
 2. Include a source URL in `sourceUrls`.
-3. Keep Ascension/CoA/Bronzebeard/custom claims as `verified = false` until independently confirmed, and explain uncertainty in `notes`.
+3. Keep Ascension/CoA/Bronzebeard/custom claims as `verified = false` until independently confirmed, and explain uncertainty in `notes`. Use `SOURCE_PENDING` for broad imported records whose exact acquisition source is not known yet.
 4. Regenerate data:
 
    ```sh

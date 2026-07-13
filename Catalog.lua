@@ -147,6 +147,10 @@ function MC:IsAvailable(recipe, state)
         return false
     end
 
+    if recipe.sourceType == "SOURCE_PENDING" then
+        return false
+    end
+
     return HasRequiredSkill(recipe, state)
         and HasCorrectFaction(recipe, state)
         and HasRequiredReputation(recipe, state)

@@ -40,3 +40,8 @@ def test_catalog_manual_debug_instructions_exist_when_no_local_lua():
     readme = read('README.md')
     assert 'Manual catalog verification' in readme
     assert 'DebugCatalogSummary' in readme
+
+
+def test_source_pending_recipes_are_not_available():
+    catalog = Path("Catalog.lua").read_text()
+    assert "recipe.sourceType == \"SOURCE_PENDING\"" in catalog

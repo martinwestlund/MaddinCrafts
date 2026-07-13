@@ -21,31 +21,42 @@ Use Classic references for broad baseline coverage; these are suitable as `verif
 - Wowhead Classic recipes and spells: <https://www.wowhead.com/classic/>
   - Spell links use `https://www.wowhead.com/classic/spell=<id>/<slug>`.
   - Recipe item links use `https://www.wowhead.com/classic/item=<id>/<slug>`.
-- ClassicDB fallback/reference: <https://classicdb.ch/>
+- ClassicDB fallback/reference and broad profession spell-list import source: <https://classicdb.ch/>
   - Example item format: <https://classicdb.ch/?item=2555>.
+  - Profession spell-list pages use URLs such as <https://classicdb.ch/?spells=11.171> for Alchemy.
+  - Imported list records prove recipe/spell existence, but not exact acquisition source and not always required skill; use `SOURCE_PENDING` until trainer/vendor/drop/quest details are curated.
 
 ## Current seed coverage
 
-`recipe_seed.json` intentionally starts small but broad:
+`recipe_seed.json` now includes broad CoA-relevant Vanilla/Classic skill-cap-300 coverage:
 
-- Classic trainer/vendor/drop examples for Alchemy, Blacksmithing, Enchanting, Engineering, Leatherworking, Tailoring, Cooking, and First Aid.
-- Existing Blacksmithing seed records were moved under generation and keep Ascension-specific uncertainty notes where applicable.
+- ClassicDB-imported spell-list records for Alchemy, Blacksmithing, Enchanting, Engineering, Leatherworking, Tailoring, Cooking, First Aid, and Mining smelting.
+- Curated Classic trainer/vendor/drop examples for several professions override matching broad imports when available.
+- Existing Blacksmithing seed records keep Ascension-specific uncertainty notes where applicable.
 - Ascension custom Woodcutting/Woodworking placeholders are included as `verified = false` with notes to demonstrate layering custom data after the Classic baseline.
+- Many imported records are `SOURCE_PENDING`, so exact acquisition source still needs curation before they can be considered Available.
 
 ## Curation rules
 
 1. Prefer one recipe per JSON object with stable `id` values: `<profession>-<recipe-name-slug>`.
 2. Include at least one `sourceUrls` entry per record; the generator strips these from runtime Lua.
 3. Keep source-specific claims conservative:
-   - Standard Classic record only: `verified = true` is acceptable.
+   - Standard Classic record with confirmed acquisition source: `verified = true` is acceptable.
+   - ClassicDB broad list import without acquisition source: `sourceType = "SOURCE_PENDING"`, `verified = false`.
    - Ascension DB, CoA wiki, Bronzebeard, or server-specific claim: `verified = false` unless independently confirmed, and add `notes`.
-4. Rebuild generated Lua after changes:
+4. Refresh broad ClassicDB imports when desired:
+
+   ```sh
+   python3 tools/import_classicdb_skill_lists.py --input tools/recipe_seed.json --output tools/recipe_seed.json
+   ```
+
+5. Rebuild generated Lua after changes:
 
    ```sh
    python3 tools/build_lua_data.py --input tools/recipe_seed.json --output-dir data
    ```
 
-5. Run tests before committing:
+6. Run tests before committing:
 
    ```sh
    pytest

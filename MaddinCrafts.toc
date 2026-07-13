@@ -2,7 +2,7 @@
 ## Title: MaddinCrafts
 ## Notes: Crafting collection helper for WoW 3.3.5a / Project Ascension.
 ## Author: MaddinCrafts
-## Version: 0.1.0
+## Version: 0.2.0
 ## SavedVariables: MaddinCraftsDB
 
 Core.lua
@@ -16,6 +16,7 @@ data/Enchanting.lua
 data/Engineering.lua
 data/FirstAid.lua
 data/Leatherworking.lua
+data/Mining.lua
 data/Tailoring.lua
 data/Woodcutting.lua
 data/Woodworking.lua

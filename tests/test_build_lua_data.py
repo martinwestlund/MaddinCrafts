@@ -142,10 +142,10 @@ def write_single_recipe_seed(path, **overrides):
 @pytest.mark.parametrize(('field', 'value', 'message'), [
     ('id', 123, 'field id must be str'),
     ('name', 123, 'field name must be str'),
-    ('profession', 'MINING', 'unknown profession MINING'),
+    ('profession', 'FISHING', 'unknown profession FISHING'),
     ('requiredSkill', -1, 'field requiredSkill must be a non-negative integer'),
     ('requiredSkill', True, 'field requiredSkill must be a non-negative integer'),
-    ('sourceType', 'QUEST', 'field sourceType must be one of'),
+    ('sourceType', 'NOT_A_SOURCE', 'field sourceType must be one of'),
     ('sourceText', 123, 'field sourceText must be str'),
     ('recipeItemId', -1, 'field recipeItemId must be a non-negative integer or null'),
     ('recipeItemId', True, 'field recipeItemId must be a non-negative integer or null'),
@@ -196,5 +196,25 @@ def test_generator_rejects_duplicate_recipe_ids(tmp_path):
     assert 'duplicate recipe id tailoring-linen-bag' in result.stderr
 
 
+def test_generator_rejects_duplicate_profession_spell_pairs(tmp_path):
+    seed = tmp_path / 'bad_seed.json'
+    out = tmp_path / 'data'
+    write_seed(seed)
+    data = json.loads(seed.read_text(encoding='utf-8'))
+    data['recipes'][1]['teachesSpellId'] = data['recipes'][0]['teachesSpellId']
+    data['recipes'][1]['profession'] = data['recipes'][0]['profession']
+    seed.write_text(json.dumps(data), encoding='utf-8')
+
+    result = run_generator(seed, out)
+
+    assert result.returncode != 0
+    assert 'duplicate profession/spell TAILORING/3755' in result.stderr
+
+
 def test_lua_string_escapes_all_ascii_control_characters_for_lua_51():
     assert build_lua_data.lua_string('a\b\tf\f\v\x01\x1fb') == '"a\\008\\009f\\012\\011\\001\\031b"'
+
+
+def test_source_pending_source_type_is_allowed():
+    assert "SOURCE_PENDING" in build_lua_data.KNOWN_SOURCE_TYPES
+    assert "QUEST" in build_lua_data.KNOWN_SOURCE_TYPES

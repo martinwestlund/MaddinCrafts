@@ -18,3 +18,13 @@ Debug logging is disabled by default. It is controlled by the saved variable:
 MaddinCraftsDB = MaddinCraftsDB or {}
 MaddinCraftsDB.debug = true
 ```
+
+## Manual catalog verification
+
+No standalone `lua` interpreter is available in this worktree environment, so catalog checks should be verified in-game after loading the addon. With debug logging enabled, open a profession window to scan learned recipes, then run:
+
+```lua
+/run MaddinCrafts:DebugCatalogSummary()
+```
+
+The `DebugCatalogSummary` helper prints overall learned, available, and unlearned recipe counts and returns the progress table for deeper inspection.

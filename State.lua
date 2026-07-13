@@ -49,6 +49,9 @@ local function EnsureCharacterState()
     if type(character.learnedRecipes) ~= "table" then
         character.learnedRecipes = {}
     end
+    if type(character.learnedRecipeNames) ~= "table" then
+        character.learnedRecipeNames = {}
+    end
     if type(character.professions) ~= "table" then
         character.professions = {}
     end
@@ -206,8 +209,11 @@ function MC:ScanTradeSkillWindow()
     end
 
     for index = 1, GetNumTradeSkills() do
-        local _, skillType = GetTradeSkillInfo(index)
+        local recipeName, skillType = GetTradeSkillInfo(index)
         if skillType ~= "header" then
+            if recipeName then
+                character.learnedRecipeNames[recipeName] = true
+            end
             local recipeLink = nil
             if GetTradeSkillRecipeLink then
                 recipeLink = GetTradeSkillRecipeLink(index)
@@ -228,6 +234,7 @@ function MC:ScanTradeSkillWindow()
     end
 
     MC.state.learnedRecipes = character.learnedRecipes
+    MC.state.learnedRecipeNames = character.learnedRecipeNames
     return character.learnedRecipes
 end
 

@@ -75,6 +75,7 @@ def test_state_scanner_caches_per_character_learned_recipe_ids():
     assert 'UnitName("player")' in state
     assert 'characters' in state
     assert 'learnedRecipes' in state
+    assert 'learnedRecipeNames' in state
     assert 'ExtractIdFromLink' in state
 
 

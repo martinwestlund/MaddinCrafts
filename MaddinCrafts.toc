@@ -12,4 +12,5 @@ data/Professions.lua
 data/Blacksmithing.lua
 State.lua
 Catalog.lua
+UI.lua
 MaddinCrafts.lua

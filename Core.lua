@@ -23,5 +23,10 @@ function MC:OnAddonLoaded(addonName)
     end
 
     EnsureSavedVariables()
+
+    if self.ValidateData then
+        self:ValidateData()
+    end
+
     self:Debug("Loaded")
 end

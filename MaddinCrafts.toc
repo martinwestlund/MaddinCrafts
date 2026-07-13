@@ -1,0 +1,10 @@
+## Interface: 30300
+## Title: MaddinCrafts
+## Notes: Crafting collection helper for WoW 3.3.5a / Project Ascension.
+## Author: MaddinCrafts
+## Version: 0.1.0
+## SavedVariables: MaddinCraftsDB
+
+Core.lua
+Debug.lua
+MaddinCrafts.lua

@@ -30,6 +30,12 @@ def test_catalog_declares_recipe_categorization_api():
         assert token in catalog
 
 
+def test_catalog_requires_known_profession_rank_for_positive_required_skill():
+    catalog = read('Catalog.lua')
+    assert 'if recipe.requiredSkill == nil or recipe.requiredSkill <= 0 then' in catalog
+    assert 'if rank == nil then\n        return false\n    end' in catalog
+
+
 def test_catalog_manual_debug_instructions_exist_when_no_local_lua():
     readme = read('README.md')
     assert 'Manual catalog verification' in readme

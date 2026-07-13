@@ -56,8 +56,12 @@ local function GetProfessionRank(recipe, state)
 end
 
 local function HasRequiredSkill(recipe, state)
-    if recipe.requiredSkill == nil or recipe.requiredSkill <= 0 then
+    if recipe.requiredSkill == nil then
         return true
+    end
+
+    if recipe.requiredSkill <= 0 then
+        return false
     end
 
     local rank = GetProfessionRank(recipe, state)

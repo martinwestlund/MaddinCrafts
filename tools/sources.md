@@ -34,7 +34,9 @@ Use Classic references for broad baseline coverage; these are suitable as `verif
 - Curated Classic trainer/vendor/drop examples for several professions override matching broad imports when available.
 - Existing Blacksmithing seed records keep Ascension-specific uncertainty notes where applicable.
 - Ascension custom Woodcutting/Woodworking placeholders are included as `verified = false` with notes to demonstrate layering custom data after the Classic baseline.
-- Many imported records are `SOURCE_PENDING`, so exact acquisition source still needs curation before they can be considered Available.
+- Most imported records now have source/location hints scraped from ClassicDB spell and recipe-item pages: trainer examples, vendor NPCs/zones, or drop examples.
+- Remaining `SOURCE_PENDING` records still need acquisition-source curation before they can be considered Available.
+- Records with `requiredSkill = 0` have unknown skill requirements and are not considered Available until curated.
 
 ## Curation rules
 
@@ -50,13 +52,19 @@ Use Classic references for broad baseline coverage; these are suitable as `verif
    python3 tools/import_classicdb_skill_lists.py --input tools/recipe_seed.json --output tools/recipe_seed.json
    ```
 
-5. Rebuild generated Lua after changes:
+5. Enrich ClassicDB source/location hints after broad imports:
+
+   ```sh
+   python3 tools/enrich_classicdb_sources.py --input tools/recipe_seed.json --output tools/recipe_seed.json
+   ```
+
+6. Rebuild generated Lua after changes:
 
    ```sh
    python3 tools/build_lua_data.py --input tools/recipe_seed.json --output-dir data
    ```
 
-6. Run tests before committing:
+7. Run tests before committing:
 
    ```sh
    pytest

@@ -30,9 +30,10 @@ def test_catalog_declares_recipe_categorization_api():
         assert token in catalog
 
 
-def test_catalog_requires_known_profession_rank_for_positive_required_skill():
+def test_catalog_requires_known_profession_rank_for_positive_required_skill_and_rejects_unknown_zero_skill():
     catalog = read('Catalog.lua')
-    assert 'if recipe.requiredSkill == nil or recipe.requiredSkill <= 0 then' in catalog
+    assert 'if recipe.requiredSkill == nil then\n        return true\n    end' in catalog
+    assert 'if recipe.requiredSkill <= 0 then\n        return false\n    end' in catalog
     assert 'if rank == nil then\n        return false\n    end' in catalog
 
 
@@ -43,5 +44,5 @@ def test_catalog_manual_debug_instructions_exist_when_no_local_lua():
 
 
 def test_source_pending_recipes_are_not_available():
-    catalog = Path("Catalog.lua").read_text()
+    catalog = read('Catalog.lua')
     assert "recipe.sourceType == \"SOURCE_PENDING\"" in catalog
